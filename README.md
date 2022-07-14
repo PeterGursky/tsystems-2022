@@ -6,5 +6,5 @@
 * [JRE albo JDK aspoň verzie 17](https://adoptium.net/)
 * Nejaké vhodné IDE, ja budem používať [Visual Studio Code](https://code.visualstudio.com/Download)
 
-# zdroje
+## zdroje
 * https://webdisk.science.upjs.sk/~peter_gursky/angular/
