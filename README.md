@@ -8,3 +8,31 @@
 
 ## zdroje
 * https://webdisk.science.upjs.sk/~peter_gursky/angular/
+
+## rozbehanie tsc-watch
+* npm i -g typescript tsc-watch
+* npm i node
+* npm i @types/node --save-dev
+* presun countries.json, countries.ts a index.ts do adresára src/
+* vytvorenie súboru tsconfig.json:
+
+> {
+>  "compilerOptions": {
+>    "target": "esnext",
+>    "module": "commonjs",
+>    "outDir": "dist",
+>    "sourceMap": true,
+>    "resolveJsonModule": true,
+>    "types": [
+>      "node"
+>    ]
+>  },
+>  "include": [
+>    "src/**/*.ts"
+>  ],
+>  "exclude": [
+>    "node_modules"
+>  ]
+>}
+
+* spustenie **npm run start**
