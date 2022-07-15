@@ -1,7 +1,7 @@
 <h2>Users:</h2>
 <ul>
   <li *ngFor="let user of users" (click)="selectUser(user)">
-    {{user.id}}: {{user.name}}, {{user.email}}
+    {{user.toString()}}
   </li>
 </ul>
 <p *ngIf="selectedUser">Selected user: {{selectedUser.name}}</p>
