@@ -5,3 +5,12 @@
   </li>
 </ul>
 <p *ngIf="selectedUser">Selected user: {{selectedUser.name}}</p>
+
+<table mat-table [dataSource]="users">
+  <mat-text-column name="id" headerText="ID"></mat-text-column>
+  <mat-text-column name="name" headerText="Name"></mat-text-column>
+  <mat-text-column name="email" headerText="E-mail"></mat-text-column>
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

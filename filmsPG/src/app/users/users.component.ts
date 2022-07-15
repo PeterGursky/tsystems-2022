@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
            {name: "Paťo", email:"pato@p.sk", password: "tajne"}
           ];
   selectedUser?: User;
+  displayedColumns = ["id","name","email"];
 
   constructor(private usersService: UsersService) { }
 
