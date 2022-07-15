@@ -15,12 +15,16 @@ export class UsersComponent implements OnInit {
           ];
   selectedUser?: User;
   displayedColumns = ["id","name","email"];
+  errorText = "";
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
 //    this.users = this.usersService.getLocalUsers();
-    this.usersService.getUsers().subscribe(u => this.users = u);
+    this.usersService.getUsers().subscribe({
+      next: u => this.users = u,
+      error: err => this.errorText = "Server not available!"
+    });
   }
 
   selectUser(user: User) {

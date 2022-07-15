@@ -6,6 +6,8 @@
 </ul>
 <p *ngIf="selectedUser">Selected user: {{selectedUser.name}}</p>
 
+<h2 *ngIf="errorText">{{errorText}}</h2>
+
 <table mat-table [dataSource]="users">
   <mat-text-column name="id" headerText="ID"></mat-text-column>
   <mat-text-column name="name" headerText="Name"></mat-text-column>
