@@ -16,23 +16,25 @@
 * presun countries.json, countries.ts a index.ts do adresára src/
 * vytvorenie súboru tsconfig.json:
 
-     {
-      "compilerOptions": {
-        "target": "esnext",
-        "module": "commonjs",
-        "outDir": "dist",
-        "sourceMap": true,
-        "resolveJsonModule": true,
-        "types": [
-          "node"
-       ]
-      },
-      "include": [
-        "src/**/*.ts"
-      ],
-      "exclude": [
-        "node_modules"
-      ]
-   }
+```json
+  {
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "commonjs",
+    "outDir": "dist",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+```
 
 * spustenie **npm run start**
