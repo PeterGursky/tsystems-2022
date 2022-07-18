@@ -11,7 +11,7 @@ export class UsersComponent implements OnInit {
 
   users = [new User("Jano","jano@jano.sk"),
            new User("Fero","fero@fero.sk",3, new Date(),"heslo"),
-           {name: "Paťo", email:"pato@p.sk", password: "tajne"}
+           {name: "Paťo", email:"pato@p.sk", password: "tajne", active: true, groups: []}
           ];
   selectedUser?: User;
   displayedColumns = ["id","name","email"];

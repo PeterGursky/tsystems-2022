@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
     this.usersService.login(this.auth).subscribe(loginOk => {
       if (loginOk) {
         // idem do autorizovanej zóny
-        this.router.navigateByUrl('/users');
+        this.router.navigateByUrl('/extended-users');
       } else {
         // vypíšem, že zlé heslo
       }

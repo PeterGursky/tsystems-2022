@@ -9,13 +9,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { P404Component } from './p404/p404.component';
 import { MaterialModule } from '../modules/material.module';
 import { FormsModule } from '@angular/forms';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
     LoginComponent,
-    P404Component
+    P404Component,
+    NavbarComponent,
+    ExtendedUsersComponent
   ],
   imports: [
     BrowserModule,
