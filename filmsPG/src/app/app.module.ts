@@ -7,18 +7,22 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatTableModule} from '@angular/material/table';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
+import { P404Component } from './p404/p404.component';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     UsersComponent,
-    LoginComponent
+    LoginComponent,
+    P404Component
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatTableModule,
+    MatCardModule,
     AppRoutingModule
   ],
   providers: [],
