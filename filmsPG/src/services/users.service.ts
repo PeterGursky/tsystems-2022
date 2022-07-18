@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable, of } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of } from 'rxjs';
 import { Auth } from 'src/entities/auth';
 import { User } from 'src/entities/user';
+import { SnackbarService } from './snackbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class UsersService {
           ];
   private token = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, 
+              private snackbarService: SnackbarService) { }
 
   getLocalUsers(): User[]{
     return this.users;
@@ -36,7 +38,17 @@ export class UsersService {
     return this.http.post(this.serverUrl + 'login',auth, {responseType: 'text'}).pipe(
       map(token => {
         this.token = token;
+        this.snackbarService.successMessage("User " + auth.name +" logged in");
         return true;
+      }),
+      catchError(error => {
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+            this.snackbarService.errorMessage("Wrong username or password");
+            return of(false);
+          }
+        }
+        return EMPTY;
       })
     );
   }
