@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Auth } from 'src/entities/auth';
+import { UsersService } from 'src/services/users.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ export class LoginComponent implements OnInit {
   auth = new Auth("Peter", "upjs");
   hide = true;
   
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
   }
@@ -20,6 +21,6 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Submit");
+    this.usersService.login(this.auth).subscribe(token => console.log('token:', token));
   }
 }
