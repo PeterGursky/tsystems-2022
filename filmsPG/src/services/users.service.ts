@@ -35,7 +35,10 @@ export class UsersService {
   }
 
   getExtendedUsers(): Observable<User[]>{
-    return this.http.get<User[]>(this.serverUrl + 'users/' + this.token);
+    return this.http.get<User[]>(this.serverUrl + 'users/' + this.token).pipe(
+      map(restUsers => restUsers.map(
+                          restUser => User.clone(restUser)))
+    );
   }
 
   login(auth: Auth): Observable<boolean> {

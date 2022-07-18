@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { User } from 'src/entities/user';
 import { UsersService } from 'src/services/users.service';
 
 @Component({
@@ -7,11 +8,16 @@ import { UsersService } from 'src/services/users.service';
   styleUrls: ['./extended-users.component.css']
 })
 export class ExtendedUsersComponent implements OnInit {
+  displayedColumns = ["id","name","email","active","lastLogin"];
+  users: User[] = [];
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getExtendedUsers().subscribe(users => console.log(users));
+    this.usersService.getExtendedUsers().subscribe(users => {
+      this.users = users;
+      console.log(users);
+    });
   }
 
 }

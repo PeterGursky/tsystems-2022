@@ -1,1 +1,10 @@
-<p>extended-users works!</p>
+<table mat-table [dataSource]="users">
+  <mat-text-column name="id" headerText="ID"></mat-text-column>
+  <mat-text-column name="name" headerText="Name"></mat-text-column>
+  <mat-text-column name="email" headerText="E-mail"></mat-text-column>
+  <mat-text-column name="active" headerText="Active"></mat-text-column>
+  <mat-text-column name="lastLogin" headerText="Last login"></mat-text-column>
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
