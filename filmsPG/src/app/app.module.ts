@@ -11,6 +11,7 @@ import { MaterialModule } from '../modules/material.module';
 import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
+import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ExtendedUsersComponent } from './extended-users/extended-users.componen
     LoginComponent,
     P404Component,
     NavbarComponent,
-    ExtendedUsersComponent
+    ExtendedUsersComponent,
+    GroupsToStringPipe
   ],
   imports: [
     BrowserModule,

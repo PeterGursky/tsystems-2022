@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, EMPTY, map, Observable, of, Subscriber } from 'rxjs';
 import { Auth } from 'src/entities/auth';
 import { User } from 'src/entities/user';
@@ -33,6 +34,7 @@ export class UsersService {
   }
 
   private set userName(value: string) {
+    this.userNameSubscriber?.next(value);
     if (value) {
       localStorage.setItem('filmsUserName', value);
     } else {
@@ -41,7 +43,8 @@ export class UsersService {
   }
 
   constructor(private http: HttpClient, 
-              private snackbarService: SnackbarService) { }
+              private snackbarService: SnackbarService,
+              private router: Router) { }
 
   loggedUser():Observable<string> {
     return new Observable((subscriber: Subscriber<string>)=> {
@@ -77,7 +80,6 @@ export class UsersService {
       map(token => {
         this.token = token;
         this.userName = auth.name;
-        this.userNameSubscriber?.next(auth.name);
         this.snackbarService.successMessage("User " + auth.name +" logged in");
         return true;
       }),
@@ -92,5 +94,14 @@ export class UsersService {
         return EMPTY;
       })
     );
+  }
+
+  logout() {
+    if (this.token) {
+      this.http.get(this.serverUrl + 'logout/' + this.token).subscribe();
+      this.userName = '';
+      this.token = '';
+    }
+    this.router.navigateByUrl('/login');
   }
 }
