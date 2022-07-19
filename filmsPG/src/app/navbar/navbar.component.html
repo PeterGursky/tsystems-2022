@@ -3,7 +3,17 @@
     <mat-icon>menu</mat-icon>
   </button>
   <span>Films</span>
-  <span><a mat-button href="/users">Users</a></span>
+  <span><a mat-button routerLink="/users" routerLinkActive="mat-accent">Users</a></span>
+  <span><a mat-button routerLink="/extended-users" routerLinkActive="mat-accent">Extended users</a></span>
   <span class="spacer"></span>
-  <span><a mat-button href="/login">Login</a></span>
+
+  <span *ngIf="userName; then thenBlock else elseBlock"></span>
+  <ng-template #thenBlock>
+    {{userName}}
+    <button type="button" mat-button (click)="logout()">Logout</button>
+  </ng-template>  
+  <ng-template #elseBlock>
+    <a mat-button routerLink="/login" routerLinkActive="mat-accent">Login</a>
+  </ng-template>
+
 </mat-toolbar>

@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, EMPTY, map, Observable, of } from 'rxjs';
+import { catchError, EMPTY, map, Observable, of, Subscriber } from 'rxjs';
 import { Auth } from 'src/entities/auth';
 import { User } from 'src/entities/user';
 import { SnackbarService } from './snackbar.service';
@@ -14,10 +14,41 @@ export class UsersService {
            new User("FeroService","fero@fero.sk",3, new Date(),"heslo"),
            {name: "PaťoService", email:"pato@p.sk", password: "tajne", active: true, groups: []}
           ];
-  private token = '';
+//  private token = '';
+  private userNameSubscriber?: Subscriber<string>;
+  private get token(): string {
+    return localStorage.getItem('filmsToken') || '';
+  }
+
+  private set token(value: string) {
+    if (value) {
+      localStorage.setItem('filmsToken', value);
+    } else {
+      localStorage.removeItem('filmsToken');
+    }
+  }
+
+  private get userName(): string {
+    return localStorage.getItem('filmsUserName') || '';
+  }
+
+  private set userName(value: string) {
+    if (value) {
+      localStorage.setItem('filmsUserName', value);
+    } else {
+      localStorage.removeItem('filmsUserName');
+    }
+  }
 
   constructor(private http: HttpClient, 
               private snackbarService: SnackbarService) { }
+
+  loggedUser():Observable<string> {
+    return new Observable((subscriber: Subscriber<string>)=> {
+      this.userNameSubscriber = subscriber;
+      subscriber.next(this.userName);
+    });
+  }
 
   getLocalUsers(): User[]{
     return this.users;
@@ -45,6 +76,8 @@ export class UsersService {
     return this.http.post(this.serverUrl + 'login',auth, {responseType: 'text'}).pipe(
       map(token => {
         this.token = token;
+        this.userName = auth.name;
+        this.userNameSubscriber?.next(auth.name);
         this.snackbarService.successMessage("User " + auth.name +" logged in");
         return true;
       }),
