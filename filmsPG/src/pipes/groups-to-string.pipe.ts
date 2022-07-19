@@ -6,13 +6,11 @@ import { Group } from 'src/entities/group';
 })
 export class GroupsToStringPipe implements PipeTransform {
 
-  transform(groups: Group[], ...args: unknown[]): string {
-    // let result = '';
-    // for (let group of groups) {
-    //   result += group.name + ', ';
-    // }
-    // return result.substring(0, result.length - 2);   
-    
+  transform(groups: Group[], param?: string): string {
+    if (param === 'perm') {
+      let perms = groups.map(g => g.permissions).flat();
+      return perms.join(', ');
+    }
     return groups.map(g => g.name).join(', ');    
   }
 
