@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
     P404Component,
     NavbarComponent,
     ExtendedUsersComponent,
-    GroupsToStringPipe
+    GroupsToStringPipe,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

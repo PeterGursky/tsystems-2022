@@ -37,6 +37,16 @@ export class ExtendedUsersComponent implements OnInit, AfterViewInit {
       if (user.groups.map(g => g.name).some(name => name.includes(filter))) return true;
       return false;
     };
+    this.usersDataSource.sortingDataAccessor = (user: User, column: string) => {
+      switch(column) {
+        case "groups":
+          return user.groups.map(g => g.name).join('');
+        case "permissions":
+          return user.groups.map(g => g.permissions).flat().join('');
+        default:
+          return user[column as keyof User]?.toString() || '';
+      }
+    }
   }
 
   applyFilter(event: any) {
