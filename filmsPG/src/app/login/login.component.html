@@ -1,4 +1,4 @@
-<form (ngSubmit)="onSubmit()">
+<form (ngSubmit)="onSubmit()" #formModel="ngForm">
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Please, log in</mat-card-title>
@@ -6,19 +6,22 @@
     <mat-card-content>
       <mat-form-field appearance="fill">
         <mat-label>User name</mat-label>
-        <input matInput [(ngModel)]="auth.name" name="name">
+        <input matInput required [(ngModel)]="auth.name" name="name">
+        <mat-hint>Please enter user name</mat-hint>
+        <mat-error>User name is required</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
         <mat-label>Enter your password</mat-label>
-        <input matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="auth.password" name="pass">
+        <input minlength="2" maxlength="10" matInput [type]="hide ? 'password' : 'text'" [(ngModel)]="auth.password" name="pass">
         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <mat-error>Password must have 2 to 10 characters</mat-error>
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button type="submit">Login</button>
+      <button mat-button type="submit" [disabled]="formModel.form.invalid">Login</button>
     </mat-card-actions>
   </mat-card>
 </form>
