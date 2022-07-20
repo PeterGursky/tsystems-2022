@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { map, Observable } from 'rxjs';
+import { User } from 'src/entities/user';
+import { UsersService } from 'src/services/users.service';
 import * as zxcvbn from 'zxcvbn';
 
 @Component({
@@ -18,16 +21,18 @@ export class RegisterComponent implements OnInit {
   }
 
   registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    name: new FormControl('', [Validators.required, Validators.minLength(3)],
+                              this.serverConflictValidator('name')),
     email: new FormControl('', [Validators.required, 
                                 Validators.email, 
-                                Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")]),
+                                Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")],
+                               this.serverConflictValidator('email')),
     password: new FormControl('', this.passwordValidator),
     password2: new FormControl('')
   }, this.passwordsMatchValidator);
   passwordMessage = '';
 
-  constructor() { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
   }
@@ -44,6 +49,21 @@ export class RegisterComponent implements OnInit {
       return err;
     }
   }
+
+  /**
+   * Returns validator for name or for email depending on field.
+   * @param field "name" or "email"
+   */
+  serverConflictValidator(field: string): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const username = field === 'name' ? control.value : '';
+      const email = field === 'email' ? control.value : '';
+      const user = new User(username, email);
+      return this.usersService.userConflicts(user).pipe(
+        map(conflicts => conflicts.includes(field) ? {conflict: "Value is already present on the server"} : null)
+      );
+    }
+  } 
 
   onSubmit(){
   }

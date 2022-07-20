@@ -104,4 +104,8 @@ export class UsersService {
     }
     this.router.navigateByUrl('/login');
   }
+
+  userConflicts(user: User): Observable<string[]> {
+    return this.http.post<string[]>(this.serverUrl+'user-conflicts', user);
+  }
 }
