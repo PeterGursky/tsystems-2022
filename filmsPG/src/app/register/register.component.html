@@ -7,11 +7,18 @@
       <mat-form-field appearance="fill">
         <mat-label>User name</mat-label>
         <input matInput formControlName="name">
+        <!-- <mat-error>{{getJson(name.errors)}}</mat-error> -->
+        <mat-error *ngIf="name.errors && name.errors['required']">Name is required</mat-error>
+        <mat-error *ngIf="name.errors && name.errors['minlength']">
+          Login must have at least {{name.errors['minlength']['requiredLength']}} characters,
+          but has only {{name.errors['minlength']['actualLength']}}.
+        </mat-error>
       </mat-form-field>
       
       <mat-form-field appearance="fill">
         <mat-label>E-mail</mat-label>
         <input matInput formControlName="email">
+        <mat-error>{{getJson(email.errors)}}</mat-error>
       </mat-form-field>
       
       <mat-form-field appearance="fill">
@@ -20,6 +27,7 @@
         <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
           <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
+        <mat-error *ngIf="password.errors">{{password.errors['weakPassword']}}</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="fill">
