@@ -21,13 +21,19 @@ export class RegisterComponent implements OnInit {
   }
 
   registerForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(3)],
-                              this.serverConflictValidator('name')),
+    name: new FormControl('', { 
+                               validators: [Validators.required, Validators.minLength(3)],
+                               asyncValidators: this.serverConflictValidator('name'),
+                               nonNullable: true
+                              }),
     email: new FormControl('', [Validators.required, 
                                 Validators.email, 
                                 Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")],
                                this.serverConflictValidator('email')),
-    password: new FormControl('', this.passwordValidator),
+    password: new FormControl('', {
+                                    validators: this.passwordValidator,
+                                    nonNullable: true
+                                  }),
     password2: new FormControl('')
   }, this.passwordsMatchValidator);
   passwordMessage = '';
@@ -66,19 +72,24 @@ export class RegisterComponent implements OnInit {
   } 
 
   onSubmit(){
+    const name = this.name.value;
+    const email = this.email.value || '';
+    const password = this.password.value;
+    const user = new User(name, email, undefined, undefined, password);
+    this.usersService.registerUser(user).subscribe();
   }
 
   getJson(error: any): string {
     return JSON.stringify(error);
   }
 
-  get name(): FormControl<string|null> {
+  get name(): FormControl<string> {
     return this.registerForm.get('name') as FormControl;
   }
   get email(): FormControl<string|null> {
     return this.registerForm.get('email') as FormControl;
   }
-  get password(): FormControl<string|null> {
+  get password(): FormControl<string> {
     return this.registerForm.get('password') as FormControl;
   }
   get password2(): FormControl<string|null> {

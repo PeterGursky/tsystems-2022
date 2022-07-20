@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, EMPTY, map, Observable, of, Subscriber } from 'rxjs';
+import { catchError, EMPTY, map, mapTo, Observable, of, Subscriber, tap } from 'rxjs';
 import { Auth } from 'src/entities/auth';
 import { User } from 'src/entities/user';
 import { SnackbarService } from './snackbar.service';
@@ -107,5 +107,36 @@ export class UsersService {
 
   userConflicts(user: User): Observable<string[]> {
     return this.http.post<string[]>(this.serverUrl+'user-conflicts', user);
+  }
+
+  registerUser(user: User): Observable<User> {
+    return this.http.post<User>(this.serverUrl + "register", user).pipe(
+      tap(savedUser=> {
+        this.snackbarService.successMessage("Registration successfull, please log in");
+        this.router.navigateByUrl("/login");
+      })
+    );
+  }
+
+  deleteUser(userId: number): Observable<boolean> {
+    return this.http.delete(this.serverUrl + "user/" + userId + "/" + this.token).pipe(
+      map(() => true),
+      catchError(error => this.processHttpError(error)) 
+    )
+  }
+
+  processHttpError(error: any): Observable<never> {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 0) {
+        this.snackbarService.errorMessage("Server down");
+      } else {
+        if (error.status < 500) { //client error
+
+        } else { // server error
+
+        }
+      }
+    }
+    return EMPTY;
   }
 }
