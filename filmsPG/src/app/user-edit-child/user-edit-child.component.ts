@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { User } from 'src/entities/user';
 import { UsersService } from 'src/services/users.service';
@@ -11,7 +11,7 @@ import { UsersService } from 'src/services/users.service';
 })
 export class UserEditChildComponent implements OnInit {
   hide = true;
-  registerForm = new FormGroup({
+  userForm = new FormGroup({
     name: new FormControl('', { 
                                validators: [Validators.required, Validators.minLength(3)],
                                asyncValidators: this.serverConflictValidator('name'),
@@ -21,13 +21,19 @@ export class UserEditChildComponent implements OnInit {
                                 Validators.email, 
                                 Validators.pattern("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")],
                                this.serverConflictValidator('email')),
-    password: new FormControl('', { nonNullable: true})
+    password: new FormControl('', { nonNullable: true}),
+    active: new FormControl<boolean>(true, { nonNullable: true}),
+    groups: new FormArray([])
   });
-  passwordMessage = '';
 
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.usersService.getGroups().subscribe(groups => {
+      for (let group of groups) {
+        this.groups.push(new FormControl<boolean>(true, { nonNullable: true}));
+      }
+    });
   }
 
     /**
@@ -50,12 +56,18 @@ export class UserEditChildComponent implements OnInit {
     }
 
     get name(): FormControl<string> {
-      return this.registerForm.get('name') as FormControl;
+      return this.userForm.get('name') as FormControl;
     }
     get email(): FormControl<string|null> {
-      return this.registerForm.get('email') as FormControl;
+      return this.userForm.get('email') as FormControl;
     }
     get password(): FormControl<string> {
-      return this.registerForm.get('password') as FormControl;
+      return this.userForm.get('password') as FormControl;
+    }
+    get active(): FormControl<boolean> {
+      return this.userForm.get('active') as FormControl;
+    }
+    get groups(): FormArray {
+      return this.userForm.get('groups') as FormArray;
     }
 }

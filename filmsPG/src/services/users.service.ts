@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, EMPTY, map, mapTo, Observable, of, Subscriber, tap } from 'rxjs';
 import { Auth } from 'src/entities/auth';
+import { Group } from 'src/entities/group';
 import { User } from 'src/entities/user';
 import { SnackbarService } from './snackbar.service';
 
@@ -136,6 +137,13 @@ export class UsersService {
     return this.http.delete(this.serverUrl + "user/" + userId + "/" + this.token).pipe(
       map(() => true),
       catchError(error => this.processHttpError(error)) 
+    )
+  }
+
+  getGroups(): Observable<Group[]> {
+    return this.http.get<Group[]>(this.serverUrl + "groups").pipe(
+      map(restGroups => restGroups.map(gr => Group.clone(gr))),
+      catchError(error => this.processHttpError(error))
     )
   }
 
