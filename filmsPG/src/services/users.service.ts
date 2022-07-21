@@ -64,14 +64,16 @@ export class UsersService {
   getUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.serverUrl + 'users').pipe(
       map(restUsers => restUsers.map(
-                          restUser => User.clone(restUser)))
+                          restUser => User.clone(restUser))),
+      catchError(error => this.processHttpError(error))
     );
   }
 
   getExtendedUsers(): Observable<User[]>{
     return this.http.get<User[]>(this.serverUrl + 'users/' + this.token).pipe(
       map(restUsers => restUsers.map(
-                          restUser => User.clone(restUser)))
+                          restUser => User.clone(restUser))),
+      catchError(error => this.processHttpError(error))
     );
   }
 
@@ -98,7 +100,9 @@ export class UsersService {
 
   logout() {
     if (this.token) {
-      this.http.get(this.serverUrl + 'logout/' + this.token).subscribe();
+      this.http.get(this.serverUrl + 'logout/' + this.token).pipe(
+        catchError(error => this.processHttpError(error))
+      ).subscribe();
       this.userName = '';
       this.token = '';
     }
@@ -106,7 +110,9 @@ export class UsersService {
   }
 
   userConflicts(user: User): Observable<string[]> {
-    return this.http.post<string[]>(this.serverUrl+'user-conflicts', user);
+    return this.http.post<string[]>(this.serverUrl+'user-conflicts', user).pipe(
+      catchError(error => this.processHttpError(error))
+    );
   }
 
   registerUser(user: User): Observable<User> {
@@ -114,7 +120,8 @@ export class UsersService {
       tap(savedUser=> {
         this.snackbarService.successMessage("Registration successfull, please log in");
         this.router.navigateByUrl("/login");
-      })
+      }),
+      catchError(error => this.processHttpError(error))
     );
   }
 
@@ -131,11 +138,15 @@ export class UsersService {
         this.snackbarService.errorMessage("Server down");
       } else {
         if (error.status < 500) { //client error
-
+          const message = error.error.errorMessage || JSON.parse(error.error).errorMessage;
+          this.snackbarService.errorMessage(message);
         } else { // server error
-
+          this.snackbarService.errorMessage("Server error, please contact administrator.");
+          console.error(error);
         }
       }
+    } else {
+      console.error(error);
     }
     return EMPTY;
   }
