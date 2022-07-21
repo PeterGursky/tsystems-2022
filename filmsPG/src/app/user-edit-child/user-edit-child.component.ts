@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
+import { Group } from 'src/entities/group';
 import { User } from 'src/entities/user';
 import { UsersService } from 'src/services/users.service';
 
@@ -9,7 +10,7 @@ import { UsersService } from 'src/services/users.service';
   templateUrl: './user-edit-child.component.html',
   styleUrls: ['./user-edit-child.component.css']
 })
-export class UserEditChildComponent implements OnInit {
+export class UserEditChildComponent implements OnChanges {
   hide = true;
   userForm = new FormGroup({
     name: new FormControl('', { 
@@ -25,13 +26,31 @@ export class UserEditChildComponent implements OnInit {
     active: new FormControl<boolean>(true, { nonNullable: true}),
     groups: new FormArray([])
   });
+  allGroups: Group[] =[];
+  @Input() user?: User;
+  editedUser: User = new User("","");
 
   constructor(private usersService: UsersService) { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    if (this.user) {
+      this.editedUser = User.clone(this.user);
+    } else {
+      this.editedUser = new User("","");
+    }
+    this.name.setValue(this.editedUser.name);
+    this.email.setValue(this.editedUser.email);
+    this.password.reset();
+    this.active.setValue(this.editedUser.active);
     this.usersService.getGroups().subscribe(groups => {
+      this.allGroups = groups;
+      this.groups.clear();
       for (let group of groups) {
-        this.groups.push(new FormControl<boolean>(true, { nonNullable: true}));
+        if (this.editedUser.groups.some(userGroup => userGroup.id === group.id)){
+          this.groups.push(new FormControl<boolean>(true, { nonNullable: true}));
+        } else {
+          this.groups.push(new FormControl<boolean>(false, { nonNullable: true}));
+        }
       }
     });
   }

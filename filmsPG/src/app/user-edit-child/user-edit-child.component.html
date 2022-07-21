@@ -38,8 +38,8 @@
 
       <p><strong>Member of groups:</strong></p>
       <div formArrayName="groups">
-        <p *ngFor="let group of groups.controls; let i = index">
-          <mat-checkbox [formControlName]="i">Pepperoni</mat-checkbox>
+        <p *ngFor="let groupModel of groups.controls; let i = index">
+          <mat-checkbox [formControlName]="i">{{allGroups[i].name}}</mat-checkbox>
         </p>
       </div>
     </mat-card-content>
