@@ -24,7 +24,14 @@ export class UserEditComponent implements OnInit {
     ).subscribe(uId => {
       if (uId){
         this.userId = uId;
-        this.usersService.getUser(uId).subscribe(user => this.user = user);
+        this.usersService.getUser(uId).subscribe({
+          next: user => this.user = user,
+          complete: () => {
+            if (uId !== this.user?.id) {
+              this.user = undefined;
+            }
+          }
+        });
       } else {  // if somebody enters common string to url instead of number id
         this.router.navigateByUrl("/");
       }

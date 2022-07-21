@@ -15,6 +15,8 @@ import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
 import { RegisterComponent } from './register/register.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
+import { UserEditChildComponent } from './user-edit-child/user-edit-child.component';
+import { UserAddComponent } from './user-add/user-add.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { UserEditComponent } from './user-edit/user-edit.component';
     GroupsToStringPipe,
     RegisterComponent,
     ConfirmDialogComponent,
-    UserEditComponent
+    UserEditComponent,
+    UserEditChildComponent,
+    UserAddComponent
   ],
   imports: [
     BrowserModule,
