@@ -5,7 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/entities/user';
 import { UsersService } from 'src/services/users.service';
-import { ConfimDialogComponent } from '../confim-dialog/confim-dialog.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-extended-users',
@@ -59,7 +59,7 @@ export class ExtendedUsersComponent implements OnInit, AfterViewInit {
 
   deleteUser(user: User) {
     if (user.id) {
-      const dialogRef = this.dialog.open(ConfimDialogComponent, {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
         data: {
           title: "Deleting user",
           question: `Do you really want to delete user ${user.name}?` 

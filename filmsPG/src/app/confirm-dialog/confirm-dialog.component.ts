@@ -1,16 +1,16 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-confim-dialog',
-  templateUrl: './confim-dialog.component.html',
-  styleUrls: ['./confim-dialog.component.css']
+  selector: 'app-confirm-dialog',
+  templateUrl: './confirm-dialog.component.html',
+  styleUrls: ['./confirm-dialog.component.css']
 })
-export class ConfimDialogComponent {
+export class ConfirmDialogComponent {
   title: string = '';
   question: string = '';
 
-  constructor(public dialogRef: MatDialogRef<ConfimDialogComponent>,
+  constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data: ConfirmDialogData) {
       this.title = data.title;
       this.question = data.question;

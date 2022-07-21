@@ -77,6 +77,13 @@ export class UsersService {
     );
   }
 
+  getUser(id: number): Observable<User> {
+    return this.http.get<User>(this.serverUrl + 'user/' + id + '/' + this.token).pipe(
+      map(restUser => User.clone(restUser)),
+      catchError(error => this.processHttpError(error))
+    );
+  }
+
   login(auth: Auth): Observable<boolean> {
     return this.http.post(this.serverUrl + 'login',auth, {responseType: 'text'}).pipe(
       map(token => {

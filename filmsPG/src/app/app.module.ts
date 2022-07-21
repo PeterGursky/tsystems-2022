@@ -13,7 +13,8 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
 import { RegisterComponent } from './register/register.component';
-import { ConfimDialogComponent } from './confim-dialog/confim-dialog.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { UserEditComponent } from './user-edit/user-edit.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ConfimDialogComponent } from './confim-dialog/confim-dialog.component';
     ExtendedUsersComponent,
     GroupsToStringPipe,
     RegisterComponent,
-    ConfimDialogComponent
+    ConfirmDialogComponent,
+    UserEditComponent
   ],
   imports: [
     BrowserModule,

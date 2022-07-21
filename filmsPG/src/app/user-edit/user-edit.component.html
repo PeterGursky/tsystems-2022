@@ -1,0 +1,5 @@
+<h1>Editing user with id {{userId}}</h1>
+<div *ngIf="user">
+  Username: {{user.name}}
+</div>
+<a mat-button routerLink="/users/edit/{{userId + 1}}">next user</a>
