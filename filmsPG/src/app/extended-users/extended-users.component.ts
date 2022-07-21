@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { User } from 'src/entities/user';
 import { UsersService } from 'src/services/users.service';
+import { ConfimDialogComponent } from '../confim-dialog/confim-dialog.component';
 
 @Component({
   selector: 'app-extended-users',
@@ -17,7 +19,8 @@ export class ExtendedUsersComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator | null = null;
   @ViewChild(MatSort) sort: MatSort | null = null;
 
-  constructor(private usersService: UsersService) { }
+  constructor(private usersService: UsersService,
+              private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.usersService.getExtendedUsers().subscribe(users => {
@@ -56,9 +59,19 @@ export class ExtendedUsersComponent implements OnInit, AfterViewInit {
 
   deleteUser(user: User) {
     if (user.id) {
-      this.usersService.deleteUser(user.id).subscribe(success => {
-        if (success) {
-          this.usersDataSource.data = this.usersDataSource.data.filter(u => u.id !== user.id);
+      const dialogRef = this.dialog.open(ConfimDialogComponent, {
+        data: {
+          title: "Deleting user",
+          question: `Do you really want to delete user ${user.name}?` 
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result && user.id) {
+          this.usersService.deleteUser(user.id).subscribe(success => {
+            if (success) {
+              this.usersDataSource.data = this.usersDataSource.data.filter(u => u.id !== user.id);
+            }
+          });
         }
       });
     }

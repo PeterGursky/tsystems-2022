@@ -13,6 +13,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ExtendedUsersComponent } from './extended-users/extended-users.component';
 import { GroupsToStringPipe } from '../pipes/groups-to-string.pipe';
 import { RegisterComponent } from './register/register.component';
+import { ConfimDialogComponent } from './confim-dialog/confim-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RegisterComponent } from './register/register.component';
     NavbarComponent,
     ExtendedUsersComponent,
     GroupsToStringPipe,
-    RegisterComponent
+    RegisterComponent,
+    ConfimDialogComponent
   ],
   imports: [
     BrowserModule,
