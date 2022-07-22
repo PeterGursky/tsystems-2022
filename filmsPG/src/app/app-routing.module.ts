@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { AuthGuard } from 'src/guards/auth.guard';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
   {path: 'users', component: UsersComponent},
@@ -22,6 +23,7 @@ const routes: Routes = [
                        .then(mod => mod.GroupsModule)},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
+  {path: 'chat', component: ChatComponent},
   {path: '', redirectTo: '/users', pathMatch: 'full'},
   {path: '**', component: P404Component}
 ];

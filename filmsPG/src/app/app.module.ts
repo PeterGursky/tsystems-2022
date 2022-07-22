@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEditChildComponent } from './user-edit-child/user-edit-child.component';
 import { UserAddComponent } from './user-add/user-add.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { UserAddComponent } from './user-add/user-add.component';
     ConfirmDialogComponent,
     UserEditComponent,
     UserEditChildComponent,
-    UserAddComponent
+    UserAddComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
