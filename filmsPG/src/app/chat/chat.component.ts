@@ -9,18 +9,22 @@ import { SnackbarService } from 'src/services/snackbar.service';
 })
 export class ChatComponent implements OnInit {
 
+  name = '';
+
   constructor(private chatService: ChatService, 
               private snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
+  }
+
+  connect() {
     this.chatService.connect().subscribe(success => {
       if (success) {
         this.snackbarService.successMessage("Connected to chat server");
-        this.chatService.sendHello("angular");
+        this.chatService.sendHello(this.name);
       } else {
         this.snackbarService.errorMessage("Cannot connect to chat server.");
       }
     });
   }
-
 }

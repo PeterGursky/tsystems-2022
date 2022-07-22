@@ -1,1 +1,10 @@
-<p>chat works!</p>
+<form (ngSubmit)="connect()" #usernameForm="ngForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Your name</mat-label>
+    <input matInput [(ngModel)]="name" name="name" required>
+    <mat-error>Name is required</mat-error>
+  </mat-form-field>
+  <button mat-button type="submit" [disabled]="usernameForm.form.invalid">
+    Connect
+  </button>
+</form>
