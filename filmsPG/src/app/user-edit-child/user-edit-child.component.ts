@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormArray, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { Group } from 'src/entities/group';
@@ -10,7 +10,7 @@ import { UsersService } from 'src/services/users.service';
   templateUrl: './user-edit-child.component.html',
   styleUrls: ['./user-edit-child.component.css']
 })
-export class UserEditChildComponent implements OnChanges {
+export class UserEditChildComponent implements OnChanges, OnInit {
   hide = true;
   userForm = new FormGroup({
     name: new FormControl('', { 
@@ -29,10 +29,19 @@ export class UserEditChildComponent implements OnChanges {
   allGroups: Group[] =[];
   @Input() user?: User;
   editedUser: User = new User("","");
+  @Output() submit = new EventEmitter<User>();
 
   constructor(private usersService: UsersService) { }
 
+  ngOnInit(): void {
+    this.loadData();
+  }
+
   ngOnChanges(): void {
+    this.loadData();
+  }
+
+  loadData(){
     if (this.user) {
       this.editedUser = User.clone(this.user);
     } else {
@@ -63,7 +72,7 @@ export class UserEditChildComponent implements OnChanges {
       return (control: AbstractControl): Observable<ValidationErrors | null> => {
         const username = field === 'name' ? control.value : '';
         const email = field === 'email' ? control.value : '';
-        const user = new User(username, email);
+        const user = new User(username, email, this.editedUser.id);
         return this.usersService.userConflicts(user).pipe(
           map(conflicts => conflicts.includes(field) ? {conflict: "Value is already present on the server"} : null)
         );
@@ -71,7 +80,20 @@ export class UserEditChildComponent implements OnChanges {
     } 
 
     onSubmit(){
-
+      const groups: Group[] = [];
+      for(let i = 0; i < this.allGroups.length; i++) {
+        if (this.groups.at(i).value) {
+          groups.push(this.allGroups[i]);
+        }
+      }
+      const user = new User(this.name.value, 
+                            this.email.value || '',
+                            this.editedUser.id,
+                            undefined,
+                            this.password.value.trim(),
+                            this.active.value,
+                            groups);
+      this.submit.emit(user);
     }
 
     get name(): FormControl<string> {

@@ -133,6 +133,13 @@ export class UsersService {
     );
   }
 
+  saveUser(user: User): Observable<User> {
+    return this.http.post<User>(this.serverUrl + "users/" + this.token, user).pipe(
+      tap(savedUser => this.snackbarService.successMessage("User saved with id " + savedUser.id)),
+      catchError(error => this.processHttpError(error))
+    )
+  }
+
   deleteUser(userId: number): Observable<boolean> {
     return this.http.delete(this.serverUrl + "user/" + userId + "/" + this.token).pipe(
       map(() => true),

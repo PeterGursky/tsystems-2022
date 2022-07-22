@@ -38,4 +38,9 @@ export class UserEditComponent implements OnInit {
     });
   }
 
+  saveUser(userToSave: User) {
+    this.usersService.saveUser(userToSave).subscribe(savedUser => {
+      this.user = savedUser;
+    });
+  }
 }

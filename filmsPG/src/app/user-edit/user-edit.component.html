@@ -2,6 +2,7 @@
 <div *ngIf="user">
   Username: {{user.name}}
 </div>
+<button mat-button routerLink="/users/edit/{{userId - 1}}" [disabled]="userId<=1">previous user</button>
 <a mat-button routerLink="/users/edit/{{userId + 1}}">next user</a>
 
-<app-user-edit-child [user]="user"></app-user-edit-child>
+<app-user-edit-child [user]="user" (submit)="saveUser($event)"></app-user-edit-child>
