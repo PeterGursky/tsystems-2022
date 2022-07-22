@@ -7,12 +7,16 @@ import { ExtendedUsersComponent } from './extended-users/extended-users.componen
 import { RegisterComponent } from './register/register.component';
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserAddComponent } from './user-add/user-add.component';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 const routes: Routes = [
   {path: 'users', component: UsersComponent},
-  {path: 'extended-users', component: ExtendedUsersComponent},
-  {path: 'users/edit/:id', component: UserEditComponent, data: {msg: "Hello"}},
-  {path: 'users/new', component: UserAddComponent},
+  {path: 'extended-users', component: ExtendedUsersComponent, 
+   canActivate: [AuthGuard]},
+  {path: 'users/edit/:id', component: UserEditComponent, data: {msg: "Hello"}, 
+   canActivate: [AuthGuard]},
+  {path: 'users/new', component: UserAddComponent, 
+   canActivate: [AuthGuard]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: '', redirectTo: '/users', pathMatch: 'full'},

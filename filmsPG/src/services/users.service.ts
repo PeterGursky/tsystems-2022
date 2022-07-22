@@ -7,6 +7,8 @@ import { Group } from 'src/entities/group';
 import { User } from 'src/entities/user';
 import { SnackbarService } from './snackbar.service';
 
+export const DEFAULT_REDIRECT_AFTER_LOGIN = "/extended-users";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,6 +20,8 @@ export class UsersService {
           ];
 //  private token = '';
   private userNameSubscriber?: Subscriber<string>;
+  public redirectAfterLogin = DEFAULT_REDIRECT_AFTER_LOGIN;
+
   private get token(): string {
     return localStorage.getItem('filmsToken') || '';
   }
@@ -152,6 +156,11 @@ export class UsersService {
       map(restGroups => restGroups.map(gr => Group.clone(gr))),
       catchError(error => this.processHttpError(error))
     )
+  }
+
+  //not secure version
+  loggedIn(): boolean {
+    return !!this.token;
   }
 
   processHttpError(error: any): Observable<never> {

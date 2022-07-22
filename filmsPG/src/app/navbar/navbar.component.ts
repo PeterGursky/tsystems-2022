@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from 'src/services/users.service';
+import { DEFAULT_REDIRECT_AFTER_LOGIN, UsersService } from 'src/services/users.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
+    this.usersService.redirectAfterLogin = DEFAULT_REDIRECT_AFTER_LOGIN;
     this.usersService.logout();
   }
 }
