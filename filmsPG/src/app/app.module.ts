@@ -17,7 +17,6 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { UserEditComponent } from './user-edit/user-edit.component';
 import { UserEditChildComponent } from './user-edit-child/user-edit-child.component';
 import { UserAddComponent } from './user-add/user-add.component';
-import { GroupsModule } from 'src/modules/groups/groups.module';
 
 @NgModule({
   declarations: [
@@ -41,7 +40,6 @@ import { GroupsModule } from 'src/modules/groups/groups.module';
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
-    GroupsModule,
     AppRoutingModule
   ],
   providers: [],

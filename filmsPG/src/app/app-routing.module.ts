@@ -17,6 +17,9 @@ const routes: Routes = [
    canActivate: [AuthGuard]},
   {path: 'users/new', component: UserAddComponent, 
    canActivate: [AuthGuard]},
+  {path: 'groups', 
+   loadChildren: () => import('../modules/groups/groups.module')
+                       .then(mod => mod.GroupsModule)},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: '', redirectTo: '/users', pathMatch: 'full'},
