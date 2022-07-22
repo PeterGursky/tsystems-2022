@@ -8,3 +8,21 @@
     Connect
   </button>
 </form>
+<button type="button" mat-button (click)="disconnect()">Disconnect</button>
+<form (ngSubmit)="sendMessage()" #messageForm="ngForm">
+  <mat-form-field appearance="fill">
+    <mat-label>Your messsage</mat-label>
+    <input matInput [(ngModel)]="messageToSend" name="msg" required>
+  </mat-form-field>
+  <button mat-button type="submit" [disabled]="messageForm.form.invalid">
+    Send message
+  </button>
+</form>
+
+<table mat-table [dataSource]="messages">
+  <mat-text-column name="name" headerText="Name"></mat-text-column>
+  <mat-text-column name="message" headerText="Message"></mat-text-column>
+  
+  <tr mat-header-row *matHeaderRowDef="['name','message']"></tr>
+  <tr mat-row *matRowDef="let row; columns: ['name','message'];"></tr>
+</table>
